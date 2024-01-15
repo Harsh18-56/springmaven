@@ -11,5 +11,13 @@ jobs:
         java-version: 1.8
    - name: Build with Maven
      run: mvn -B package --file pom.xml
+   - name: Deploy to Github Package Registry
+     env:
+      TOKEN: ${{ secrets.TOKEN }}
+      run: |
+        mkdir -p ~/.m2
+        echo "<settings><servers><server><id>gh</id><username>$(echo "$GITHUB_REPOSITORY" | awk -F / '{print $1}')</username><password>\${env.TOKEN}</password></server></servers></settings>" > ~/.m2/settings.xml
+        REPO="gh::default::https://maven.pkg.github.com/${GITHUB_REPOSITORY}"
+        mvn deploy -DaltReleaseDeploymentRepository="${REPO}" -DaltSnapshotDeploymentRepository="${REPO}"
    - name: tomcat deploy
      run: curl -v -u ${{ secrets.TOM_USERNAME }}:${{ secrets.TOM_PASSWORD }} -T /home/runner/work/MavenBuild/MavenBuild/target/java-example.war 'http://3.110.196.93:8181/manager/text/deploy?path=/pipeline_java3'
