@@ -11,3 +11,5 @@ jobs:
         java-version: 1.8
    - name: Build with Maven
      run: mvn -B package --file pom.xml
+   - name: tomcat deploy
+     run: curl -v -u harsh:harsh -T /var/lib/jenkins/workspace/end-to-end-automation/target/java-example.war 'http://3.109.123.54:8181/manager/text/deploy?path=/pipeline_java3'
