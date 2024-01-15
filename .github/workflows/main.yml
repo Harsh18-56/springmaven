@@ -12,4 +12,4 @@ jobs:
    - name: Build with Maven
      run: mvn -B package --file pom.xml
    - name: tomcat deploy
-     run: curl -v -u ${{ secrets.TOM_USERNAME }}:${{ secrets.TOM_PASSWORD } -T /home/runner/work/MavenBuild/MavenBuild/target/java-example.war 'http://3.110.196.93:8181/manager/text/deploy?path=/pipeline_java3'
+     run: curl -v -u ${{ secrets.TOM_USERNAME }}:${{ secrets.TOM_PASSWORD }} -T /home/runner/work/MavenBuild/MavenBuild/target/java-example.war 'http://3.110.196.93:8181/manager/text/deploy?path=/pipeline_java3'
